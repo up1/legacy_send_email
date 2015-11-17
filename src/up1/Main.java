@@ -10,10 +10,10 @@ public class Main {
     private static String GMAIL_PASSWORD = "********";
 
     public void sendEmail(String from, String to, String subject, String body) {
-        sendTextEmail(from, new String[]{to}, subject, body);
+        sendTextEmail(from, to, subject, body);
     }
 
-    private void sendTextEmail(String from, String[] to, String subject, String body) {
+    private void sendTextEmail(String from, String to, String subject, String body) {
         try {
             MimeMessage mimeMessage = createTextEmail(from, to, subject, body);
             Transport.send(mimeMessage);
@@ -22,15 +22,18 @@ public class Main {
         }
     }
 
-    private MimeMessage createTextEmail(String from, String[] to, String subject, String body) {
+    private MimeMessage createTextEmail(String from, String to, String subject, String body) {
         Session session = getSession();
         try {
-            MimeMessage mineMessage = new MimeMessage(session);
-            mineMessage.setFrom(new InternetAddress(from));
-            setToAddresses(to, mineMessage);
-            mineMessage.setSubject(subject);
-            mineMessage.setText(body);
-            return  mineMessage;
+            MimeMessage mimeMessage = new MimeMessage(session);
+            mimeMessage.setFrom(new InternetAddress(from));
+            Address[] tos = new InternetAddress[]{new InternetAddress(to)};
+            Address[] froms = new InternetAddress[]{new InternetAddress(from)};
+            mimeMessage.setFrom(froms[0]);
+            mimeMessage.setRecipients(Message.RecipientType.TO, tos);
+            mimeMessage.setSubject(subject);
+            mimeMessage.setText(body);
+            return  mimeMessage;
         } catch (MessagingException messagingException) {
             throw new RuntimeException(messagingException);
         }
@@ -46,17 +49,5 @@ public class Main {
         properties.put("mail.smtp.port", "587");
         properties.put("mail.smtp.auth", "true");
         return Session.getDefaultInstance(properties);
-    }
-
-    private static void setToAddresses(String[] to, MimeMessage message) throws MessagingException {
-        InternetAddress[] toAddress = new InternetAddress[to.length];
-
-        for (int i = 0; i < to.length; i++) {
-            toAddress[i] = new InternetAddress(to[i]);
-        }
-
-        for (int i = 0; i < toAddress.length; i++) {
-            message.addRecipient(Message.RecipientType.TO, toAddress[i]);
-        }
     }
 }
