@@ -6,9 +6,8 @@ import javax.mail.internet.*;
 
 public class Main {
 
-    private static String USER_NAME = "*****";  // GMail user name (just the part before "@gmail.com")
-    private static String PASSWORD = "********"; // GMail password
-    private static String RECIPIENT = "lizard.bill@myschool.edu";
+    private static String GMAIL_USER_NAME = "*****";  // GMail user name (just the part before "@gmail.com")
+    private static String GMAIL_PASSWORD = "********"; // GMail password
 
     public static void main(String[] args) {
         Main main = new Main();
@@ -16,8 +15,8 @@ public class Main {
     }
 
     public void sendEmail() {
-        String from = USER_NAME;
-        String[] to = {RECIPIENT};
+        String from = GMAIL_USER_NAME;
+        String[] to = {"lizard.bill@myschool.edu"};
         String subject = "Java send mail example";
         String body = "Welcome to JavaMail!";
 
@@ -56,8 +55,8 @@ public class Main {
         String host = "smtp.gmail.com";
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.user", from);
-        properties.put("mail.smtp.password", PASSWORD);
+        properties.put("mail.smtp.user", GMAIL_USER_NAME);
+        properties.put("mail.smtp.password", GMAIL_PASSWORD);
         properties.put("mail.smtp.port", "587");
         properties.put("mail.smtp.auth", "true");
         return Session.getDefaultInstance(properties);
