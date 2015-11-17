@@ -10,6 +10,11 @@ public class Main {
     private static String RECIPIENT = "lizard.bill@myschool.edu";
 
     public static void main(String[] args) {
+        Main main = new Main();
+        main.sendEmail();
+    }
+
+    public void sendEmail() {
         String from = USER_NAME;
         String pass = PASSWORD;
         String[] to = { RECIPIENT }; // list of recipient email addresses
