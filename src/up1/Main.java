@@ -8,22 +8,28 @@ public class Main {
 
     private static final String GMAIL_USER_NAME = "*****";
     private static final String GMAIL_PASSWORD = "********";
+    private static final String GMAIL_HOST = "smtp.gmail.com";
+    private Session session = null;
+    private Transport transport = null;
 
     public void sendEmail(String from, String to, String subject, String body) {
         sendTextEmail(from, to, subject, body);
     }
 
     public void sendTextEmail(String from, String to, String subject, String body) {
+        this.session = getSession();
         try {
-            MimeMessage mimeMessage = createTextEmail(from, to, subject, body);
-            Transport.send(mimeMessage);
+            MimeMessage mimeMessage = createTextEmail(this.session, from, to, subject, body);
+            Transport transport = getTransport();
+            transport.connect(GMAIL_HOST, GMAIL_USER_NAME, GMAIL_PASSWORD);
+            transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
+            transport.close();
         } catch (MessagingException messagingException) {
             messagingException.printStackTrace();
         }
     }
 
-    public MimeMessage createTextEmail(String from, String to, String subject, String body) {
-        Session session = getSession();
+    public MimeMessage createTextEmail(Session session, String from, String to, String subject, String body) {
         try {
             MimeMessage mimeMessage = new MimeMessage(session);
             mimeMessage.setFrom(new InternetAddress(from));
@@ -41,13 +47,23 @@ public class Main {
 
     public Session getSession() {
         Properties properties = System.getProperties();
-        String host = "smtp.gmail.com";
         properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.user", GMAIL_USER_NAME);
         properties.put("mail.smtp.password", GMAIL_PASSWORD);
         properties.put("mail.smtp.port", "587");
         properties.put("mail.smtp.auth", "true");
         return Session.getDefaultInstance(properties);
+    }
+
+    public void setTransport(Transport transport) {
+        this.transport = transport;
+    }
+
+    private Transport getTransport() throws NoSuchProviderException {
+        if( this.transport == null ) {
+            return this.session.getTransport("smtp");
+        }
+        return this.transport;
     }
 }
