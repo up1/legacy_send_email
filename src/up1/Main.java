@@ -39,17 +39,7 @@ public class Main {
 
         try {
             message.setFrom(new InternetAddress(from));
-            InternetAddress[] toAddress = new InternetAddress[to.length];
-
-            // To get the array of addresses
-            for( int i = 0; i < to.length; i++ ) {
-                toAddress[i] = new InternetAddress(to[i]);
-            }
-
-            for( int i = 0; i < toAddress.length; i++) {
-                message.addRecipient(Message.RecipientType.TO, toAddress[i]);
-            }
-
+            setToAddresses(to, message);
             message.setSubject(subject);
             message.setText(body);
             Transport transport = session.getTransport("smtp");
@@ -62,6 +52,19 @@ public class Main {
         }
         catch (MessagingException me) {
             me.printStackTrace();
+        }
+    }
+
+    private static void setToAddresses(String[] to, MimeMessage message) throws MessagingException {
+        InternetAddress[] toAddress = new InternetAddress[to.length];
+
+        // To get the array of addresses
+        for( int i = 0; i < to.length; i++ ) {
+            toAddress[i] = new InternetAddress(to[i]);
+        }
+
+        for( int i = 0; i < toAddress.length; i++) {
+            message.addRecipient(Message.RecipientType.TO, toAddress[i]);
         }
     }
 }
