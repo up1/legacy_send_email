@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class SendMailTest {
 
     @Test
-    public void mock_trnasport_for_send_email_success() {
+    public void mock_transport_for_send_email_success() {
         Properties properties = System.getProperties();
         MockTransport mockTransport = new MockTransport(Session.getDefaultInstance(properties), null);
         Main main = new Main();
