@@ -6,8 +6,8 @@ import javax.mail.internet.*;
 
 public class Main {
 
-    private static String GMAIL_USER_NAME = "*****";
-    private static String GMAIL_PASSWORD = "********";
+    private static final String GMAIL_USER_NAME = "*****";
+    private static final String GMAIL_PASSWORD = "********";
 
     public void sendEmail(String from, String to, String subject, String body) {
         sendTextEmail(from, to, subject, body);
