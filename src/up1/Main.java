@@ -48,7 +48,7 @@ public class Main {
     public Session getSession() {
         Properties properties = System.getProperties();
         properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.host", GMAIL_HOST);
         properties.put("mail.smtp.user", GMAIL_USER_NAME);
         properties.put("mail.smtp.password", GMAIL_PASSWORD);
         properties.put("mail.smtp.port", "587");
