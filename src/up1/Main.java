@@ -6,22 +6,8 @@ import javax.mail.internet.*;
 
 public class Main {
 
-    private static String GMAIL_USER_NAME = "*****";  // GMail user name (just the part before "@gmail.com")
-    private static String GMAIL_PASSWORD = "********"; // GMail password
-
-    public static void main(String[] args) {
-        Main main = new Main();
-        main.sendEmail();
-    }
-
-    public void sendEmail() {
-        String from = GMAIL_USER_NAME;
-        String[] to = {"lizard.bill@myschool.edu"};
-        String subject = "Java send mail example";
-        String body = "Welcome to JavaMail!";
-
-        sendTextEmail(from, to, subject, body);
-    }
+    private static String GMAIL_USER_NAME = "*****";
+    private static String GMAIL_PASSWORD = "********";
 
     public void sendEmail(String from, String to, String subject, String body) {
         sendTextEmail(from, new String[]{to}, subject, body);
@@ -37,7 +23,7 @@ public class Main {
     }
 
     private MimeMessage createTextEmail(String from, String[] to, String subject, String body) {
-        Session session = getSession(from);
+        Session session = getSession();
         try {
             MimeMessage mineMessage = new MimeMessage(session);
             mineMessage.setFrom(new InternetAddress(from));
@@ -50,7 +36,7 @@ public class Main {
         }
     }
 
-    private Session getSession(String from) {
+    private Session getSession() {
         Properties properties = System.getProperties();
         String host = "smtp.gmail.com";
         properties.put("mail.smtp.starttls.enable", "true");
