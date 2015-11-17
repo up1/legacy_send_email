@@ -17,11 +17,15 @@ public class Main {
 
     public void sendEmail() {
         String from = USER_NAME;
-        String[] to = {RECIPIENT}; // list of recipient email addresses
+        String[] to = {RECIPIENT};
         String subject = "Java send mail example";
         String body = "Welcome to JavaMail!";
 
         sendTextEmail(from, to, subject, body);
+    }
+
+    public void sendEmail(String from, String to, String subject, String body) {
+        sendTextEmail(from, new String[]{to}, subject, body);
     }
 
     private void sendTextEmail(String from, String[] to, String subject, String body) {
@@ -62,7 +66,6 @@ public class Main {
     private static void setToAddresses(String[] to, MimeMessage message) throws MessagingException {
         InternetAddress[] toAddress = new InternetAddress[to.length];
 
-        // To get the array of addresses
         for (int i = 0; i < to.length; i++) {
             toAddress[i] = new InternetAddress(to[i]);
         }
