@@ -17,25 +17,24 @@ public class Main {
 
     public void sendEmail() {
         String from = USER_NAME;
-        String pass = PASSWORD;
         String[] to = {RECIPIENT}; // list of recipient email addresses
         String subject = "Java send mail example";
         String body = "Welcome to JavaMail!";
 
-        sendTextEmail(from, pass, to, subject, body);
+        sendTextEmail(from, to, subject, body);
     }
 
-    private void sendTextEmail(String from, String password, String[] to, String subject, String body) {
+    private void sendTextEmail(String from, String[] to, String subject, String body) {
         try {
-            MimeMessage mimeMessage = createTextEmail(from, password, to, subject, body);
+            MimeMessage mimeMessage = createTextEmail(from, to, subject, body);
             Transport.send(mimeMessage);
         } catch (MessagingException messagingException) {
             messagingException.printStackTrace();
         }
     }
 
-    private MimeMessage createTextEmail(String from, String password, String[] to, String subject, String body) {
-        Session session = getSession(from, password);
+    private MimeMessage createTextEmail(String from, String[] to, String subject, String body) {
+        Session session = getSession(from);
         try {
             MimeMessage mineMessage = new MimeMessage(session);
             mineMessage.setFrom(new InternetAddress(from));
@@ -48,13 +47,13 @@ public class Main {
         }
     }
 
-    private Session getSession(String from, String password) {
+    private Session getSession(String from) {
         Properties properties = System.getProperties();
         String host = "smtp.gmail.com";
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.host", host);
         properties.put("mail.smtp.user", from);
-        properties.put("mail.smtp.password", password);
+        properties.put("mail.smtp.password", PASSWORD);
         properties.put("mail.smtp.port", "587");
         properties.put("mail.smtp.auth", "true");
         return Session.getDefaultInstance(properties);
