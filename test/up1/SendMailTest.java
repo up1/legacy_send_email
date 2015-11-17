@@ -18,7 +18,9 @@ public class SendMailTest {
         MockTransport mockTransport = new MockTransport(Session.getDefaultInstance(properties), null);
         Main main = new Main();
         main.setTransport( mockTransport );
+
         main.sendEmail("somkiat@xxx.com", "roofimin@xxx.com", "subject", "body");
+
         assertTrue("Call method connect to connect to smtp server", mockTransport.isConnect);
         assertTrue("Call method sendMessage to send email", mockTransport.isSend);
     }
