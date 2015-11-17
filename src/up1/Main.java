@@ -35,15 +35,7 @@ public class Main {
     }
 
     private MimeMessage createTextEmail(String from, String password, String[] to, String subject, String body) {
-        Properties props = System.getProperties();
-        String host = "smtp.gmail.com";
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", host);
-        props.put("mail.smtp.user", from);
-        props.put("mail.smtp.password", password);
-        props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.auth", "true");
-        Session session = Session.getDefaultInstance(props);
+        Session session = getSession(from, password);
         try {
             MimeMessage mineMessage = new MimeMessage(session);
             mineMessage.setFrom(new InternetAddress(from));
@@ -54,6 +46,18 @@ public class Main {
         } catch (MessagingException messagingException) {
             throw new RuntimeException(messagingException);
         }
+    }
+
+    private Session getSession(String from, String password) {
+        Properties properties = System.getProperties();
+        String host = "smtp.gmail.com";
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.user", from);
+        properties.put("mail.smtp.password", password);
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.auth", "true");
+        return Session.getDefaultInstance(properties);
     }
 
     private static void setToAddresses(String[] to, MimeMessage message) throws MessagingException {
