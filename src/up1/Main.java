@@ -13,7 +13,7 @@ public class Main {
         sendTextEmail(from, to, subject, body);
     }
 
-    private void sendTextEmail(String from, String to, String subject, String body) {
+    public void sendTextEmail(String from, String to, String subject, String body) {
         try {
             MimeMessage mimeMessage = createTextEmail(from, to, subject, body);
             Transport.send(mimeMessage);
@@ -22,7 +22,7 @@ public class Main {
         }
     }
 
-    private MimeMessage createTextEmail(String from, String to, String subject, String body) {
+    public MimeMessage createTextEmail(String from, String to, String subject, String body) {
         Session session = getSession();
         try {
             MimeMessage mimeMessage = new MimeMessage(session);
@@ -39,7 +39,7 @@ public class Main {
         }
     }
 
-    private Session getSession() {
+    public Session getSession() {
         Properties properties = System.getProperties();
         String host = "smtp.gmail.com";
         properties.put("mail.smtp.starttls.enable", "true");
