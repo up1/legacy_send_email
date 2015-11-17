@@ -21,10 +21,10 @@ public class Main {
         String subject = "Java send mail example";
         String body = "Welcome to JavaMail!";
 
-        sendFromGMail(from, pass, to, subject, body);
+        sendTextEmail(from, pass, to, subject, body);
     }
 
-    private static void sendFromGMail(String from, String pass, String[] to, String subject, String body) {
+    private void sendTextEmail(String from, String pass, String[] to, String subject, String body) {
         Properties props = System.getProperties();
         String host = "smtp.gmail.com";
         props.put("mail.smtp.starttls.enable", "true");
@@ -34,10 +34,11 @@ public class Main {
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.auth", "true");
 
-        Session session = Session.getDefaultInstance(props);
-        MimeMessage message = new MimeMessage(session);
 
         try {
+            Session session = Session.getDefaultInstance(props);
+
+            MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             setToAddresses(to, message);
             message.setSubject(subject);
